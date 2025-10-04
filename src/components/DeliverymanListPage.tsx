@@ -1,22 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import {
-  Search,
-  Plus,
-  Eye,
-  Edit,
-  Trash2,
-  Filter,
-  Download,
-  User,
-  Phone,
-  Mail,
-  Calendar,
-  ToggleLeft,
-  ToggleRight,
-  Loader,
-  RefreshCw,
-} from "lucide-react";
+import { Search, Plus, Eye, CreditCard as Edit, Trash2, Filter, Download, User, Phone, Mail, Calendar, ToggleLeft, ToggleRight, Loader, RefreshCw } from "lucide-react";
 import { apiService, User as ApiUser } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
