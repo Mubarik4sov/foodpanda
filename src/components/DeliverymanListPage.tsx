@@ -177,6 +177,56 @@ export default function DeliverymanListPage() {
     loadDeliverymen();
   };
 
+  const handleExport = () => {
+    const csvHeaders = [
+      "SL",
+      "Name",
+      "Email",
+      "Phone",
+      "Address",
+      "Joining Date",
+      "Total Orders",
+      "Status",
+    ];
+
+    const csvRows = filteredDeliverymen.map((driver, index) => [
+      index + 1,
+      driver.name,
+      driver.email,
+      driver.phone,
+      driver.address.replace(/,/g, ";"),
+      driver.joiningDate,
+      driver.totalOrders,
+      driver.status,
+    ]);
+
+    const csvContent = [
+      csvHeaders.join(","),
+      ...csvRows.map((row) => row.join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `delivery-drivers-${new Date().toISOString().split("T")[0]}.csv`
+    );
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    Swal.fire({
+      icon: "success",
+      title: "Exported!",
+      text: "Delivery drivers list has been exported successfully.",
+      timer: 2000,
+      showConfirmButton: false,
+    });
+  };
+
   const filteredDeliverymen = deliverymen.filter((deliveryman) => {
     const matchesSearch =
       deliveryman.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -371,7 +421,10 @@ export default function DeliverymanListPage() {
               <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
                 Search
               </button>
-              <button className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors flex items-center space-x-2">
+              <button
+                onClick={handleExport}
+                className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors flex items-center space-x-2"
+              >
                 <Download className="w-4 h-4" />
                 <span>Export</span>
               </button>
@@ -479,15 +532,24 @@ export default function DeliverymanListPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="flex items-center space-x-2">
-                          <button className="text-blue-600 hover:text-blue-800 p-1 rounded">
+                          <button
+                            onClick={() => navigate(`/delivery-man-list/${deliveryman.id}`)}
+                            className="text-blue-600 hover:text-blue-800 p-1 rounded"
+                            title="View Details"
+                          >
                             <Eye className="w-4 h-4" />
                           </button>
-                          <button className="text-green-600 hover:text-green-800 p-1 rounded">
+                          <button
+                            onClick={() => navigate(`/delivery-man-list/edit/${deliveryman.id}`)}
+                            className="text-green-600 hover:text-green-800 p-1 rounded"
+                            title="Edit"
+                          >
                             <Edit className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleDeleteDriver(deliveryman.id)}
                             className="text-red-600 hover:text-red-800 p-1 rounded"
+                            title="Delete"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
