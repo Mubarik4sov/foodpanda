@@ -94,20 +94,37 @@ export default function EditDeliverymanPage() {
     setSaving(true);
 
     try {
-      Swal.fire({
-        title: "Success!",
-        text: "Delivery driver information updated successfully",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-      navigate("/delivery-man-list");
+      const updateData = {
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        phone_number: formData.phone_number,
+        street_address1: formData.street_address1,
+        street_address2: formData.street_address2,
+        city: formData.city,
+        state: formData.state,
+        zip_code: formData.zip_code,
+      };
+
+      const response = await apiService.updateUser(parseInt(id!), updateData);
+
+      if (response.errorCode === 0) {
+        Swal.fire({
+          title: "Success!",
+          text: "Delivery driver information updated successfully",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        navigate("/delivery-man-list");
+      } else {
+        throw new Error(response.errorMessage || "Failed to update");
+      }
     } catch (error) {
       console.error("Error updating deliveryman:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Failed to update delivery driver information",
+        text: error instanceof Error ? error.message : "Failed to update delivery driver information",
       });
     } finally {
       setSaving(false);
