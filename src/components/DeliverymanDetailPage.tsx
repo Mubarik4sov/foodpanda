@@ -1,18 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import {
-  ArrowLeft,
-  User,
-  Mail,
-  Phone,
-  MapPin,
-  Calendar,
-  DollarSign,
-  Package,
-  Loader,
-  Edit,
-} from "lucide-react";
+import { ArrowLeft, User, Mail, Phone, MapPin, Calendar, DollarSign, Package, Loader, CreditCard as Edit } from "lucide-react";
 import { apiService } from "../services/api";
 
 interface DeliverymanDetails {
