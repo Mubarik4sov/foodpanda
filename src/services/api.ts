@@ -414,9 +414,13 @@ class ApiService {
   }
 
   async updateUser(userId: number, data: Partial<CreateUserRequest>): Promise<UserResponse> {
-    return this.makeRequest<UserResponse>(`/auth/updateUser/${userId}`, {
-      method: 'PATCH',
-      body: JSON.stringify(data),
+    const updateData = {
+      ...data,
+      id: userId
+    };
+    return this.makeRequest<UserResponse>('/auth/signup', {
+      method: 'POST',
+      body: JSON.stringify(updateData),
     });
   }
 

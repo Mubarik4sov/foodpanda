@@ -95,14 +95,17 @@ export default function EditDeliverymanPage() {
 
     try {
       const updateData = {
+        role_name: "Rider",
         first_name: formData.first_name,
         last_name: formData.last_name,
+        email_address: formData.email_address,
         phone_number: formData.phone_number,
         street_address1: formData.street_address1,
         street_address2: formData.street_address2,
         city: formData.city,
         state: formData.state,
         zip_code: formData.zip_code,
+        password: "",
       };
 
       const response = await apiService.updateUser(parseInt(id!), updateData);

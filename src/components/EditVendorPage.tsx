@@ -103,8 +103,10 @@ export default function EditVendorPage() {
 
     try {
       const updateData = {
+        role_name: "Vendor",
         first_name: formData.first_name,
         last_name: formData.last_name,
+        email_address: formData.email_address,
         phone_number: formData.phone_number,
         street_address1: formData.street_address1,
         street_address2: formData.street_address2,
@@ -113,6 +115,7 @@ export default function EditVendorPage() {
         zip_code: formData.zip_code,
         restaurant_name: formData.restaurant_name,
         description: formData.description,
+        password: "",
       };
 
       const response = await apiService.updateUser(parseInt(id!), updateData);
